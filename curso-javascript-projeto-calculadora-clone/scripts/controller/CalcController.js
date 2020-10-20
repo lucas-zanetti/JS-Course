@@ -7,6 +7,7 @@ class CalcController{
         this._timeEl = document.querySelector("#hora");
         this._currentDate;
         this.initialize();
+        this.initButtonsEvents();
     }
 
     initialize(){
@@ -15,6 +16,26 @@ class CalcController{
             this.setDisplayDateTime();
         },1000);
     }
+
+    addEventListenerAll(element, events, fn){
+        events.split(' ').forEach(event => {
+            element.addEventListener(event, fn, false);
+        });
+    }
+    
+    initButtonsEvents(){
+        let buttons = document.querySelectorAll("#buttons > g, #parts > g");
+        console.log(buttons);
+        buttons.forEach((btn, index)=>{
+            this.addEventListenerAll(btn, 'click drag', e=>{
+                console.log(btn.className.baseVal.replace("btn-",""));
+            });
+            this.addEventListenerAll(btn, "mouseover mouseup mousedown", e =>{
+                btn.style.cursor = "pointer";
+            });
+        });
+    }
+    
 
     setDisplayDateTime(){
         this.displayDate = this.currentDate.toLocaleDateString(this._locale,{
